@@ -1,42 +1,98 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* general layout */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.App {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header,
+footer {
+    background: #333;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+nav a {
+    margin: 0 1rem;
+    color: #fff;
+    text-decoration: none;
 }
 
-.card {
-  padding: 2em;
+main {
+    flex: 1;
+    padding: 1rem;
 }
 
-.read-the-docs {
-  color: #888;
+/* search styling */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+/* list styling */
+.results-list ul,
+.saved-page ul {
+    list-style: none;
+    padding: 0;
+}
+
+.results-list li,
+.saved-page li {
+    border: 1px solid #ccc;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    list-style: none;
+}
+
+/* grid styling for results-list */
+.results-list {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    max-width: 80%;       
+    margin: 0 auto;       
+}
+
+.results-list li {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    text-align: center;
+    aspect-ratio: 4 / 3; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.detail-page {
+    padding-left: 20%;
+}
+
+/* responsive adjustments for the grid */
+
+@media (max-width: 768px) {
+    .results-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

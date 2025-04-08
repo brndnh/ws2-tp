@@ -1,35 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useState } from 'react';
+import HomePage from './components/HomePage';
+import DetailPage from './components/DetailPage';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [currentPage, setCurrentPage] = useState({ page: 'home', detail: null });
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    // navigate function updates the current page
+    const navigate = (page, detail = null) => {
+        setCurrentPage({ page, detail });
+    };
+
+    return (
+        <div className="App">
+            <header>
+                <h1>My Pokédex</h1>
+            </header>
+            <main>
+                {currentPage.page === 'home' && (
+                    <HomePage navigate={navigate} />
+                )}
+                {currentPage.page === 'detail' && (
+                    <DetailPage pokemonUrl={currentPage.detail} navigate={navigate} />
+                )}
+            </main>
+            <footer>
+                <p>&copy; Pokédex</p>
+            </footer>
+        </div>
+    );
 }
 
-export default App
+export default App;
