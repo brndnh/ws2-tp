@@ -6,7 +6,7 @@ function HomePage({ navigate }) {
     const [results, setResults] = useState([]);
     const [error, setError] = useState(null);
 
-    // fetch results from PokeAPI
+    // fetches results from PokeAPI
     const fetchResults = (searchQuery = '') => {
         fetch('https://pokeapi.co/api/v2/pokemon?limit=493')
             .then((res) => res.json())
@@ -42,8 +42,12 @@ function HomePage({ navigate }) {
                     placeholder="Search Pokémon by name..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
+                    style={{ flex: 1 }}
                 />
-                <button type="submit">Search</button>
+                <button type="submit" className='button-container'>Search</button>
+                <button type="button" className='button-container' onClick={() => navigate('saved')}>
+                    View Favourites
+                </button>
             </form>
             {error && <p className="error">{error}</p>}
             <ResultsList results={results} navigate={navigate} />
