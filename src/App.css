@@ -118,6 +118,10 @@ li {
     color: white;
 }
 
+.white-text {
+    color: white;
+}
+
 .detail-card {
     border: 2px solid #ccc;
     padding: 1rem;

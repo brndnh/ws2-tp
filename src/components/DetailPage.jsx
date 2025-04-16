@@ -5,6 +5,7 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 function DetailPage({ pokemonUrl, navigate }) {
     const [pokemonDetail, setPokemonDetail] = useState(null);
     const [error, setError] = useState(null);
+    const [favourited, setFavourited] = useState(false);
 
     useEffect(() => {
         if (!pokemonUrl) return;
@@ -17,12 +18,22 @@ function DetailPage({ pokemonUrl, navigate }) {
             });
     }, [pokemonUrl]);
 
-    // save to favourites function
-    const handleFavourite = () => {
-        // retrieves current favourite list or starts with an empty array
+    // checks if the pokemon is already favourited once its details are loaded.
+    useEffect(() => {
+        if (pokemonDetail) {
+            const favourites = JSON.parse(localStorage.getItem('favouritePokemon')) || [];
+            if (favourites.find(item => item.id === pokemonDetail.id)) {
+                setFavourited(true);
+            } else {
+                setFavourited(false);
+            }
+        }
+    }, [pokemonDetail]);
+
+    // toggle favourite
+    const handleToggleFavourite = () => {
         const favourites = JSON.parse(localStorage.getItem('favouritePokemon')) || [];
-        // check if the Pokemon is already in favourites
-        if (!favourites.find(item => item.id === pokemonDetail.id)) {
+        if (!favourited) {
             // creates a simplified version of the pokemon data to save
             const newFavourite = {
                 id: pokemonDetail.id,
@@ -32,9 +43,12 @@ function DetailPage({ pokemonUrl, navigate }) {
             };
             favourites.push(newFavourite);
             localStorage.setItem('favouritePokemon', JSON.stringify(favourites));
-            alert(`${capitalize(pokemonDetail.name)} added to favourites!`);
+            setFavourited(true);
         } else {
-            alert(`${capitalize(pokemonDetail.name)} is already in your favourites.`);
+            // removes this pokemon from the favourites.
+            const updatedFavourites = favourites.filter(item => item.id !== pokemonDetail.id);
+            localStorage.setItem('favouritePokemon', JSON.stringify(updatedFavourites));
+            setFavourited(false);
         }
     };
 
@@ -42,6 +56,7 @@ function DetailPage({ pokemonUrl, navigate }) {
     if (!pokemonDetail) return <p>Loading...</p>;
 
     return (
+        // pokemon details
         <div className="detail-page">
             <h2>{capitalize(pokemonDetail.name)}</h2>
             {pokemonDetail.sprites && pokemonDetail.sprites.front_default && (
@@ -53,7 +68,6 @@ function DetailPage({ pokemonUrl, navigate }) {
             <p>Height: {pokemonDetail.height}0cm</p>
             <p>Weight: {pokemonDetail.weight}g</p>
 
-            {/* types */}
             <h3>Type{pokemonDetail.types.length > 1 ? 's' : ''}:</h3>
             <ul>
                 {pokemonDetail.types.map((typeInfo, index) => (
@@ -61,7 +75,6 @@ function DetailPage({ pokemonUrl, navigate }) {
                 ))}
             </ul>
 
-            {/* abilities */}
             <h3>Abilities:</h3>
             <ul>
                 {pokemonDetail.abilities.map((abilityInfo, index) => (
@@ -73,7 +86,9 @@ function DetailPage({ pokemonUrl, navigate }) {
             </ul>
 
             <div className="button-container">
-                <button onClick={handleFavourite}>Add to Favourites</button>
+                <button onClick={handleToggleFavourite}>
+                    {favourited ? 'Unfavourite' : 'Add to Favourites'}
+                </button>
             </div>
             <div className="button-container">
                 <button onClick={() => navigate('saved')}>View Favourites</button>

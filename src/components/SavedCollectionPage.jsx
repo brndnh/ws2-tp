@@ -21,7 +21,7 @@ function SavedCollectionPage({ navigate }) {
         <div className="saved-page">
             <h2>Saved Pokémon</h2>
             {savedResults.length === 0 ? (
-                <p>No saved items yet.</p>
+                <p className='white-text'>No saved items yet.</p>
             ) : (
                 <div className="saved-cards-grid">
                     {savedResults.map(result => (
